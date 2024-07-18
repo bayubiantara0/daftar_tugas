@@ -136,6 +136,20 @@
           },
           columnDefs: [
             {
+                "targets": [2],
+                "searchable": false,
+                "orderable": false,
+                "render": function(data, type, row, meta) {
+                    if (row[2]==1){
+                        $controlls = '<span class="badge bg-success">Selesa</span>';
+                        return $controlls;
+                    }else{
+                        $controlls = '<span class="badge bg-danger">Belum Selesai</span>';
+                        return $controlls;
+                    }
+                },
+            },
+            {
                 "targets": [3],
                 "searchable": false,
                 "orderable": false,

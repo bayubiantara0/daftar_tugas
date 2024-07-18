@@ -2,9 +2,9 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="<?= base_url('/dashboard') ?>" class="logo d-flex align-items-center">
+      <a href="<?= base_url('/') ?>" class="logo d-flex align-items-center">
         <img src="<?= base_url('')?>assets/img/favicon.png" alt="">
-        <span class="d-none d-lg-block">Local Traveling</span>
+        <span class="d-none d-lg-block">Daftar Tugas</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -17,7 +17,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('/dashboard')?>">
+        <a class="nav-link" href="<?= base_url('/')?>">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
