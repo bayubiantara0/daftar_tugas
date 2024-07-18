@@ -36,4 +36,28 @@ class Home extends BaseController
         $mdltugas->delete_id($id);
         echo json_encode(array("status" => true));
     }
+
+    public function get_edit($id = null)
+    {
+        $mdlemployee = new Mdltugas();
+        $data = $mdlemployee->find($id);
+        echo json_encode($data);
+    }
+
+    public function update()
+    {
+        $mdlemployee = new Mdltugas();
+
+        $id = $this->request->getPost('id');
+        $edtnik = $this->request->getPost('edtjudul');
+        $edtname = $this->request->getPost('edtstatus');
+
+        $data = [
+            'judul' => $edtnik,
+            'status' => $edtname,
+        ];
+
+        $mdlemployee->updatetugas($id,$data);
+        echo json_encode(array("status" => true));
+    }
 }

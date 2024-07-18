@@ -29,6 +29,38 @@
     </div>
 </section>
 
+<div class="modal fade" id="modaledit" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-size: 13px;">Edit Tugas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formedittugas">
+                    <input type="hidden" id="id" name="id">
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label" style="font-size: 13px;"><b>Judul</b></label>
+                        <div class="col-sm-10">
+                        <input type="teks" class="form-control inputbox" id="edtjudul" name="edtjudul" style="font-size: 13px;">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label" style="font-size: 13px;"><b>Status</b></label>
+                        <div class="col-sm-10">
+                        <input type="teks" class="form-control inputbox" id="edtstatus" name="edtstatus" style="font-size: 13px;">
+                        </div>
+                    </div>
+                </form><!-- End Horizontal Form -->
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="btneditsubmit" class="btn btn-primary" style="font-size: 13px;">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 13px;">Close</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Basic Modal-->
+
 <script>
     var retable;
     
@@ -116,5 +148,71 @@
           })
         })
     })
+
+    $(document).ready(function(){
+      $(document).on('click','#btnedit',function(){
+        var id =  $(this).data('id');
+
+        $.ajax({
+          url: "<?php echo site_url('/daftartugas/getedit'); ?>/" + id,
+          type: "GET",
+          dataType: "JSON",
+          success: function(data) {
+
+              $('[name="id"]').val(data.id);
+              $('[name="edtjudul"]').val(data.judul);
+              $('[name="edtstatus"]').val(data.status);
+              $("#modaledit").modal('show');
+
+          },
+          error: function(){
+            Toast.fire({  
+              icon: 'error',
+              title: 'Failed to edit tugas'
+            })
+          }
+      });
+      })
+    })
+
+    $(document).ready(function(){
+      $("#btneditsubmit").click(function(){
+        BtnSubmit();
+      })
+    })
+
+    function BtnSubmit(){
+      var url ="<?= base_url('/daftartugas/update')?>";
+      var formdata = new FormData($('#formedittugas')[0]);
+      
+      $.ajax({
+        url : url,
+        type : 'post',
+        data : formdata,
+        dataType : "JSON",
+        cache : false,
+        contentType : false,
+        processData : false,
+        success: function(data){
+          if (data.status)
+          {
+            $("#modaledit").modal('hide');
+            // $('#formgrade')[0].reset();
+            reload_table();
+            Toast.fire({  
+              icon: 'success',
+              title: 'Successfully update tugas'
+            })
+          }
+        },
+        error : function(){
+          Toast.fire({  
+            icon: 'error',
+            title: 'Failed to update tugas'
+          })
+        }
+      })
+      
+    }
 
 </script>
