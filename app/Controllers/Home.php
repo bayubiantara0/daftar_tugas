@@ -39,14 +39,14 @@ class Home extends BaseController
 
     public function get_edit($id = null)
     {
-        $mdlemployee = new Mdltugas();
-        $data = $mdlemployee->find($id);
+        $mdltugas = new Mdltugas();
+        $data = $mdltugas->find($id);
         echo json_encode($data);
     }
 
     public function update()
     {
-        $mdlemployee = new Mdltugas();
+        $mdltugas = new Mdltugas();
 
         $id = $this->request->getPost('id');
         $edtnik = $this->request->getPost('edtjudul');
@@ -57,7 +57,14 @@ class Home extends BaseController
             'status' => $edtname,
         ];
 
-        $mdlemployee->updatetugas($id,$data);
+        $mdltugas->updatetugas($id,$data);
         echo json_encode(array("status" => true));
+    }
+
+    public function get_view($id)
+    {
+        $mdltugas = new Mdltugas();
+        $data = $mdltugas->getview($id);
+        echo json_encode($data);
     }
 }

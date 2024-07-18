@@ -33,4 +33,13 @@ class Mdltugas extends Model
         
         return $query->getResult();
     }
+
+    public function getview($id)
+    {
+        $builder = $this->db->table($this->table);
+        $query   = $builder->get();
+        
+        return $query->getRow();
+    }
+
 }

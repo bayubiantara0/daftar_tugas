@@ -61,6 +61,32 @@
     </div>
 </div><!-- End Basic Modal-->
 
+<div class="modal fade" id="modalview" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-size: 13px;">View Tugas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 label " style="font-size: 13px;">Judul</div>
+                    <div class="col-lg-1 col-md-4 label " style="font-size: 13px;">:</div>
+                    <div class="col-lg-8 col-md-8" name="vjudul" style="font-size: 13px;"></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 label " style="font-size: 13px;">Tugas</div>
+                    <div class="col-lg-1 col-md-4 label " style="font-size: 13px;">:</div>
+                    <div class="col-lg-8 col-md-8" name="vstatus" style="font-size: 13px;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 13px;">Close</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Basic Modal-->
+
 <script>
     var retable;
     
@@ -197,7 +223,6 @@
           if (data.status)
           {
             $("#modaledit").modal('hide');
-            // $('#formgrade')[0].reset();
             reload_table();
             Toast.fire({  
               icon: 'success',
@@ -214,5 +239,22 @@
       })
       
     }
+
+    $(document).ready(function(){
+      $(document).on('click','#btnview',function(){
+        var id =  $(this).data('id');
+
+        $.ajax({
+          url: "<?php echo site_url('/daftartugas/getview')?>/" + id,
+          type: "GET",
+          dataType: "JSON",
+          success: function(data) {
+              $('[name="vjudul"]').text(data.judul);
+              $('[name="vstatus"]').text(data.status);
+              $("#modalview").modal('show');
+          },
+        });
+      })
+    })
 
 </script>
