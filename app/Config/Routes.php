@@ -8,3 +8,4 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 $routes->match(['get','post'],'/daftartugas/datatables', 'Home::datatables');
+$routes->post('/daftartugas/delete', 'Home::delete');

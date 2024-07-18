@@ -65,4 +65,56 @@
       retable.ajax.reload(null,false);
     }
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: false,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+    $(document).ready(function(){
+        $(document).on('click','#btndelete',function(){
+          var id =  $(this).data('id');
+            Swal.fire({
+              title: 'Are you sure?',
+              text: "Deleted data cannot be recovered!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, Delete this!',
+          }).then((result) => {
+              if (result.value) {
+                  $.ajax({
+                      url: "<?php echo base_url('/daftartugas/delete'); ?>",
+                      type: "POST",
+                      data: {id : id},
+                      cache: false,
+                      dataType: 'json',
+                      success: function(data) {
+                          reload_table();
+                          Swal.fire(
+                              'Delete',
+                              'Successfully Deleted',
+                              'success'
+                          )
+
+                      }
+                  });
+              } else if (result.dismiss === swal.DismissReason.cancel) {
+                  Swal.fire(
+                      'Cancelled',
+                      'Your data is safe :)',
+                      'error'
+                  )
+              }
+          })
+        })
+    })
+
 </script>
