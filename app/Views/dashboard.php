@@ -5,6 +5,7 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">All Request</h5>
+              <button type="button" id="btnadd" data-bs-toggle="modal" data-bs-target="#modaltugas" class="mt-2 mb-2 btn btn-primary btn-sm">Add Tugas</button>
 
               <!-- Table with stripped rows -->
               <table class="table" id="ttugas" style="font-size: 13px;">
@@ -28,6 +29,37 @@
         </div>
     </div>
 </section>
+
+<div class="modal fade" id="modaltugas" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-size: 13px;">Add Tugas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formaddmtugas">
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label" style="font-size: 13px;">Judul</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control inputbox" id="addjudul" name="addjudul" style="font-size: 13px;" >
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label" style="font-size: 13px;">Status</label>
+                        <div class="col-sm-10">
+                          <input type="number" class="form-control inputbox" id="addstatus" name="addstatus" style="font-size: 13px;" >
+                        </div>
+                    </div>
+                </form><!-- End Horizontal Form -->
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="btnaddmtugas" class="btn btn-primary" style="font-size: 13px;">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 13px;">Close</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Basic Modal-->
 
 <div class="modal fade" id="modaledit" tabindex="-1">
     <div class="modal-dialog modal-lg">
@@ -133,6 +165,40 @@
           toast.addEventListener('mouseenter', Swal.stopTimer)
           toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
+    })
+
+    $(document).ready(function(){
+        $(document).on('click','#btnaddmtugas',function(){
+            var url = '<?= base_url('/daftartugas/addtugas') ?>';
+            var formdata = new FormData($('#formaddmtugas')[0]);
+            var valid;
+            $.ajax({
+                url : url,
+                type : 'post',
+                data : formdata,
+                dataType : 'JSON',
+                cache : false,
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    if(data.status){
+                        reload_table();
+                        $('#formaddmtugas')[0].reset();
+                        $("#modaltugas").modal('hide');
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Successfully added tugas',
+                        })
+                    }
+                },
+                error : function(){
+                    Toast.fire({  
+                        icon: 'error',
+                        title: 'Failed to adding tugas'
+                    })
+                }
+            })
+        })
     })
 
     $(document).ready(function(){

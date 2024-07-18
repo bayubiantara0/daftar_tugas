@@ -9,7 +9,6 @@ class Home extends BaseController
 {
     public function index(): string
     {
-        $request = \Config\Services::request();
         $data =[
             'title' => 'Daftar Tugas',
             'content' => 'dashboard',
@@ -25,6 +24,22 @@ class Home extends BaseController
         return DataTable::of($builder)
                ->addNumbering() //it will return data output with numbering on first column
                ->toJson();
+    }
+
+    public function addtugas()
+    {
+        $mdltugas = new Mdltugas();
+
+        $judul = $this->request->getPost('addjudul');
+        $status = $this->request->getPost('addstatus');
+
+        $data = [
+            'judul' => $judul,
+            'status' => $status,
+        ];
+
+        $mdltugas->inserttugas($data);
+        echo json_encode(array("status" => true));
     }
 
     public function delete()
